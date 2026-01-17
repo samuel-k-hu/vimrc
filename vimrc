@@ -128,13 +128,12 @@ nnoremap <leader>cp :call CheckPerlSyntaxMake()<CR>
 
 " --- Run code
 
-function! SmartSendToTmux() abort
+function! SendCodeToTmux() abort
   normal! gv"zy
   let text = @z
   call system('tmux load-buffer -', text)
   call system('tmux paste-buffer -d')
 endfunction
 
-nnoremap <leader>t vip:call SmartSendToTmux()<CR>
-xnoremap <leader>t :<C-U>call SmartSendToTmux()<CR>
-
+nnoremap <leader>st vip:call SendCodeToTmux()<CR>
+xnoremap <leader>st :<C-U>call SendCodeToTmux()<CR>
