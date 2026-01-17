@@ -12,6 +12,7 @@ set nobackup
 set ruler
 set showcmd
 set incsearch
+set notimeout
 
 " Disable all automatic indentation and smart behavior
 set noautoindent
