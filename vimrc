@@ -137,3 +137,6 @@ endfunction
 
 nnoremap <leader>st vip:call SendCodeToTmux()<CR>
 xnoremap <leader>st :<C-U>call SendCodeToTmux()<CR>
+
+nnoremap <leader>sv :source %<CR>
+nnoremap <leader>sp :!perl %<CR>
