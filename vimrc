@@ -7,6 +7,7 @@
 
 set nocompatible
 set number
+set noswapfile
 
 " Disable all automatic indentation and smart behavior
 set noautoindent
@@ -19,6 +20,11 @@ set noexpandtab
 set tabstop=8
 set shiftwidth=8
 set softtabstop=0
+
+" Auto save
+set updatetime=2000
+autocmd InsertLeave *  update
+autocmd CursorHold * update
 
 " Disable filetype detection, plugins, and indentation
 filetype off
