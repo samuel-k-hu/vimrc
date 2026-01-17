@@ -53,16 +53,16 @@ function! SmartFuzzyCommand(choice_command, vim_command)
     return
   endif
 
-  try 
+  try
     let output = system(a:choice_command . ' | ' . tool)
-  catch /Vim:Interrupt/ 
+  catch /Vim:Interrupt/
     return
-  endtry 
-    redraw! 
-  if v:shell_error == 0 && !empty(output) 
-    exec a:vim_command . ' ' . output 
-  endif 
-endfunction 
+  endtry
+    redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec a:vim_command . ' ' . output
+  endif
+endfunction
 
 if has('win32') || has('win64')
   if executable('fd')
@@ -83,7 +83,7 @@ function! SmartFuzzyOldfiles(vim_command)
     echoerr "Neither fzy nor fzf found in PATH."
     return
   endif
-  redraw! 
+  redraw!
 
   try
     let input = join(v:oldfiles, "\n")
@@ -120,7 +120,7 @@ function! CheckPerlSyntaxMake() abort
   let qf = filter(qf, 'has_key(v:val,"lnum") && v:val.lnum > 0')
   call setqflist(qf, 'r')
 
-  redraw! 
+  redraw!
   if !empty(getqflist())
     copen
   else
@@ -149,7 +149,7 @@ function! CheckCSyntaxMake() abort
   let qf = filter(qf, 'has_key(v:val,"lnum") && v:val.lnum > 0')
   call setqflist(qf, 'r')
 
-  redraw! 
+  redraw!
   if !empty(getqflist())
     copen
   else
