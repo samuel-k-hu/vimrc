@@ -127,6 +127,35 @@ endfunction
 
 nnoremap <leader>cp :call CheckPerlSyntaxMake()<CR>
 
+" C
+
+function! CheckCSyntaxMake() abort
+  let save_make = &makeprg
+  let save_efm  = &errorformat
+
+  let &makeprg = 'clang -fsyntax-only -Wall -Wextra %'
+  let &errorformat = '%f:%l:%c:%m'
+
+  silent make
+
+  let &makeprg = save_make
+  let &errorformat = save_efm
+
+  let qf = getqflist()
+  let qf = filter(qf, 'has_key(v:val,"lnum") && v:val.lnum > 0')
+  call setqflist(qf, 'r')
+
+  redraw! 
+  if !empty(getqflist())
+    copen
+  else
+    echo "C syntax OK"
+    cclose
+  endif
+endfunction
+
+nnoremap <leader>cc :call CheckCSyntaxMake()<CR>
+
 " --- Run code
 
 function! SendCodeToTmux() abort
