@@ -60,14 +60,15 @@ function! SmartFuzzyCommand(choice_command, vim_command)
   endif 
 endfunction 
 
-if executable('fd')
-  nnoremap <leader>e :call SmartFuzzyCommand("fd --type f --hidden --exclude .git", ":tabnew")<CR>
-elseif executable('find')
-  nnoremap <leader>f :call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")<CR>
+if has('win32') || has('win64')
+  if executable('fd')
+    nnoremap <leader>f :call SmartFuzzyCommand("fd --type f --hidden --exclude .git", ":tabnew")<CR>
+  else
+    nnoremap <leader>f :echo "fd not found in PATH."<CR>
+  endif
 else
-  nnoremap <leader>f :echo "Neither fd nor find found in PATH."<CR>
+  nnoremap <leader>f :call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")<CR>
 endif
-
 
 function! SmartFuzzyOldfiles(vim_command)
   if executable('fzy')
