@@ -36,6 +36,10 @@ syntax off
 " Set <leader>
 let mapleader = " "
 
+" Trimming trailing whitespace
+nnoremap <leader>ttw :%s/\s\+$//e<CR>
+vnoremap <leader>ttw :s/\s\+$//e<CR>
+
 " --- File opening
 " Use external fzy/fzf to select files
 
