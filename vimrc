@@ -120,7 +120,7 @@ function! CheckPerlSyntaxMake() abort
   if !empty(getqflist())
     copen
   else
-    echo "Perl syntax OK ✅"
+    echo "Perl syntax OK"
     cclose
   endif
 endfunction
