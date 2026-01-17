@@ -63,9 +63,9 @@ endfunction
 if executable('fd')
   nnoremap <leader>e :call SmartFuzzyCommand("fd --type f --hidden --exclude .git", ":tabnew")<CR>
 elseif executable('find')
-  nnoremap <leader>e :call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")<CR>
+  nnoremap <leader>f :call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")<CR>
 else
-  nnoremap <leader>e :echo "Neither fd nor find found in PATH."<CR>
+  nnoremap <leader>f :echo "Neither fd nor find found in PATH."<CR>
 endif
 
 
