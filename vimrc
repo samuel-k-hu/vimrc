@@ -27,9 +27,7 @@ set shiftwidth=8
 set softtabstop=0
 
 " Auto save
-set updatetime=2000
-autocmd InsertLeave *  update
-autocmd CursorHold * update
+autocmd InsertLeave,CmdlineEnter *  update
 
 " Disable filetype detection, plugins, and indentation
 filetype off
