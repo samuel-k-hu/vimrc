@@ -1,7 +1,12 @@
-" vimrc — a simple Vim configuration file
+" vimrc — A simple Vim configuration that relies on
+"                           small utilities rather than plugins
 "
 " Copyright (c) 2026-present samuel-k-hu <zongnan.hu@gmail.com>
 " Licensed under the BSD 2-Clause License
+"
+" project repository: https://github.com/samuel-k-hu/vimrc
+" related utilities: https://github.com/samuel-k-hu/uutils
+"
 
 " --- Basics
 
