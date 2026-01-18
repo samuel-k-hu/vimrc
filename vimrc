@@ -14,6 +14,11 @@ set showcmd
 set incsearch
 set notimeout
 
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+vnoremap <expr> j v:count ? 'j' : 'gj'
+vnoremap <expr> k v:count ? 'k' : 'gk'
+
 " Disable all automatic indentation and smart behavior
 set noautoindent
 set nocindent
