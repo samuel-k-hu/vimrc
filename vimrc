@@ -169,6 +169,35 @@ endfunction
 
 nnoremap <leader>cc :call CheckCSyntaxMake()<CR>
 
+" English
+
+function! CheckSpellMake() abort
+  let save_make = &makeprg
+  let save_efm  = &errorformat
+
+  let &makeprg = 'hunspell_check %'
+  let &errorformat = '%f:%l:%m'
+
+  silent make
+
+  let &makeprg = save_make
+  let &errorformat = save_efm
+
+  let qf = getqflist()
+  let qf = filter(qf, 'has_key(v:val,"lnum") && v:val.lnum > 0')
+  call setqflist(qf, 'r')
+
+  redraw!
+  if !empty(getqflist())
+    copen
+  else
+    echo "OK"
+    cclose
+  endif
+endfunction
+
+nnoremap <leader>cs :call CheckSpellMake()<CR>
+
 " --- Run code
 
 function! SendCodeToTmux() abort
