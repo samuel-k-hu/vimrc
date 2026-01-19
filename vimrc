@@ -94,6 +94,13 @@ else
 endif
 
 function! SmartFuzzyOldfiles(vim_command)
+  let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(v:val)')
+
+  if empty(oldfiles_filtered)
+    echo "No valid oldfiles found."
+    return
+  endif
+
   if executable('fzy')
     let tool = 'fzy'
   elseif executable('fzf')
@@ -105,7 +112,7 @@ function! SmartFuzzyOldfiles(vim_command)
   redraw!
 
   try
-    let input = join(v:oldfiles, "\n")
+    let input = join(oldfiles_filtered, "\n")
     let output = system(tool, input)
   catch /Vim:Interrupt/
 
