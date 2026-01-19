@@ -36,9 +36,6 @@ set tabstop=8
 set shiftwidth=8
 set softtabstop=0
 
-" Auto save
-autocmd InsertLeave,CmdlineEnter *  update
-
 " Disable filetype detection, plugins, and indentation
 filetype off
 
@@ -51,6 +48,18 @@ let mapleader = " "
 " Trimming trailing whitespace
 nnoremap <leader>tw :%s/\s\+$//e<CR>
 vnoremap <leader>tw :s/\s\+$//e<CR>
+
+" Autoread
+set autoread
+if exists('*timer_start')
+  function! s:AutoCheckTime(timer)
+      checktime
+  endfunction
+
+  let g:autoread_timer = timer_start(500, function('s:AutoCheckTime'), {'repeat': -1})
+endif
+
+"autocmd BufEnter, TabEnter, InsertEnter * checktime
 
 " --- File opening
 " Use external fzy/fzf to select files
