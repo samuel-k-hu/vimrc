@@ -96,7 +96,7 @@ else
 endif
 
 function! SmartFuzzyOldfiles(vim_command)
-  let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(v:val)')
+  let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(expand(v:val))')
 
   if empty(oldfiles_filtered)
     echo "No valid oldfiles found."
