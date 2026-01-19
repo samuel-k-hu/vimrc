@@ -151,6 +151,7 @@ function! SmartFuzzyProject()
   redraw!
   if v:shell_error == 0 && !empty(output)
     exec 'cd ' . fnameescape(trim(output))
+    call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")
   endif
 endfunction
 
