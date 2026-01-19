@@ -45,13 +45,6 @@ filetype off
 " Disable syntax highlighting
 syntax off
 
-" Disable filetype detection, plugins, and indentation
-filetype off
-
-
-" Disable syntax highlighting
-syntax off
-
 " Set <leader>
 let mapleader = " "
 
