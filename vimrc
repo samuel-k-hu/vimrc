@@ -128,6 +128,34 @@ endfunction
 
 nnoremap <leader>r :call SmartFuzzyOldfiles(':tabnew')<CR>
 
+function! SmartFuzzyProject()
+  let find_starting_point = !empty($SKH) ? $SKH : $HOME
+
+  if executable('fzy')
+    let tool = 'fzy'
+  elseif executable('fzf')
+    let tool = 'fzf'
+  else
+    echoerr "Neither fzy nor fzf found in PATH."
+    return
+  endif
+  redraw!
+
+  try
+    let cmd = 'find ' . shellescape(find_starting_point) . ' -type d -name ".git" | xargs -n1 dirname | ' . tool
+    let output = system(cmd)
+  catch /Vim:Interrupt/
+
+  endtry
+
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec 'cd ' . fnameescape(trim(output))
+  endif
+endfunction
+
+nnoremap <leader>p :call SmartFuzzyProject()<CR>
+
 " --- Check code
 
 " Perl
