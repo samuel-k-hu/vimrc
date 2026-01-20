@@ -89,7 +89,6 @@ function! FuzzyFindFile()
     redraw!
   if v:shell_error == 0 && !empty(file)
     exec ':e' . ' ' . file
-    exec 'cd %:h'
   endif
 endfunction
 
