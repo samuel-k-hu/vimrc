@@ -128,7 +128,7 @@ endfunction
 
 nnoremap <leader>r :call SmartFuzzyOldfiles(':tabnew')<CR>
 
-function! SmartFuzzyProject()
+function! SmartFuzzyProject(find_file)
   let find_starting_point = !empty($SKH) ? $SKH : $HOME
 
   if executable('fzy')
@@ -151,11 +151,14 @@ function! SmartFuzzyProject()
   redraw!
   if v:shell_error == 0 && !empty(output)
     exec 'cd ' . fnameescape(trim(output))
-    call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")
+    if a:find_file
+      call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")
+    endif
   endif
 endfunction
 
-nnoremap <leader>p :call SmartFuzzyProject()<CR>
+nnoremap <leader>p :call SmartFuzzyProject(0)<CR>
+nnoremap <leader>P :call SmartFuzzyProject(1)<CR>
 
 " --- Check code
 
