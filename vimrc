@@ -72,27 +72,20 @@ else
   echoerr "fzf or fzy is required for fuzzy searching."
 endif
 
-function! SmartFuzzyCommand(choice_command, vim_command)
+function! FuzzyFindFile()
   try
-    let output = system(a:choice_command . ' | ' . g:fuzzy_finder )
+    let find_cmd = "find . -name .git -prune -o -type f"
+    let file = system(find_cmd . ' | ' . g:fuzzy_finder )
   catch /Vim:Interrupt/
     return
   endtry
     redraw!
-  if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . ' ' . output
+  if v:shell_error == 0 && !empty(file)
+    exec ":tabnew" . ' ' . file
   endif
 endfunction
 
-if has('win32') || has('win64')
-  if executable('fd')
-    nnoremap <leader>f :call SmartFuzzyCommand("fd --type f --hidden --exclude .git", ":tabnew")<CR>
-  else
-    nnoremap <leader>f :echo "fd not found in PATH."<CR>
-  endif
-else
-  nnoremap <leader>f :call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")<CR>
-endif
+nnoremap <leader>f :call FuzzyFindFile()<CR>
 
 function! SmartFuzzyOldfiles(vim_command)
   let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(expand(v:val))')
@@ -131,7 +124,7 @@ function! SmartFuzzyProject(find_file)
   if v:shell_error == 0 && !empty(output)
     exec 'cd ' . fnameescape(trim(output))
     if a:find_file
-      call SmartFuzzyCommand("find . -type f -not -path '**/.git/**'", ":tabnew")
+      call FuzzyFindFile()
     endif
   endif
 endfunction
