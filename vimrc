@@ -110,7 +110,7 @@ endfunction
 
 nnoremap <leader>r :call FuzzyFindOldfile(':tabnew')<CR>
 
-function! SmartFuzzyProject(find_file)
+function! FuzzyChangeDir(find_file)
   let find_starting_point = !empty($SKH) ? $SKH : $HOME
 
   try
@@ -129,8 +129,8 @@ function! SmartFuzzyProject(find_file)
   endif
 endfunction
 
-nnoremap <leader>p :call SmartFuzzyProject(0)<CR>
-nnoremap <leader>P :call SmartFuzzyProject(1)<CR>
+nnoremap <leader>p :call FuzzyChangeDir(0)<CR>
+nnoremap <leader>P :call FuzzyChangeDir(1)<CR>
 
 " --- Check code
 
