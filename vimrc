@@ -87,7 +87,7 @@ endfunction
 
 nnoremap <leader>f :call FuzzyFindFile()<CR>
 
-function! SmartFuzzyOldfiles(vim_command)
+function! FuzzyFindOldfile(vim_command)
   let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(expand(v:val))')
 
   if empty(oldfiles_filtered)
@@ -108,7 +108,7 @@ function! SmartFuzzyOldfiles(vim_command)
   endif
 endfunction
 
-nnoremap <leader>r :call SmartFuzzyOldfiles(':tabnew')<CR>
+nnoremap <leader>r :call FuzzyFindOldfile(':tabnew')<CR>
 
 function! SmartFuzzyProject(find_file)
   let find_starting_point = !empty($SKH) ? $SKH : $HOME
