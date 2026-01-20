@@ -77,7 +77,7 @@ else
 endif
 
 let g:find_starting_point = !empty($SKH) ? $SKH : $HOME
-let g:project_roots = system('find ' . shellescape(find_starting_point) . ' -type d -name ".git" | xargs -n1 dirname')
+let g:project_roots = system('list_git_repos ' . g:find_starting_point)
 
 function! FuzzyFindFile()
   try
@@ -88,13 +88,14 @@ function! FuzzyFindFile()
   endtry
     redraw!
   if v:shell_error == 0 && !empty(file)
-    exec ":tabnew" . ' ' . file
+    exec ':e' . ' ' . file
+    exec 'cd %:h'
   endif
 endfunction
 
 nnoremap <leader>f :call FuzzyFindFile()<CR>
 
-function! FuzzyFindOldfile(vim_command)
+function! FuzzyFindOldfile()
   let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(expand(v:val))')
 
   if empty(oldfiles_filtered)
@@ -111,13 +112,14 @@ function! FuzzyFindOldfile(vim_command)
 
   redraw!
   if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . ' ' . fnameescape(trim(output))
+    exec 'e ' . fnameescape(trim(output))
+    exec 'cd %:h'
   endif
 endfunction
 
-nnoremap <leader>r :call FuzzyFindOldfile(':tabnew')<CR>
+nnoremap <leader>r :call FuzzyFindOldfile()<CR>
 
-function! FuzzyChangeDir(find_file)
+function! FuzzyChangeDir()
 
   try
     let output = system(g:fuzzy_finder, g:project_roots)
@@ -128,14 +130,11 @@ function! FuzzyChangeDir(find_file)
   redraw!
   if v:shell_error == 0 && !empty(output)
     exec 'cd ' . fnameescape(trim(output))
-    if a:find_file
-      call FuzzyFindFile()
-    endif
+    call FuzzyFindFile()
   endif
 endfunction
 
-nnoremap <leader>p :call FuzzyChangeDir(0)<CR>
-nnoremap <leader>P :call FuzzyChangeDir(1)<CR>
+nnoremap <leader>p :call FuzzyChangeDir()<CR>
 
 " --- Check code
 
