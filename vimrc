@@ -76,6 +76,9 @@ else
   echoerr "fzf or fzy is required for fuzzy searching."
 endif
 
+let g:find_starting_point = !empty($SKH) ? $SKH : $HOME
+let g:project_roots = system('find ' . shellescape(find_starting_point) . ' -type d -name ".git" | xargs -n1 dirname')
+
 function! FuzzyFindFile()
   try
     let find_cmd = "find . -name .git -prune -o -type f"
@@ -115,11 +118,9 @@ endfunction
 nnoremap <leader>r :call FuzzyFindOldfile(':tabnew')<CR>
 
 function! FuzzyChangeDir(find_file)
-  let find_starting_point = !empty($SKH) ? $SKH : $HOME
 
   try
-    let cmd = 'find ' . shellescape(find_starting_point) . ' -type d -name ".git" | xargs -n1 dirname | ' . g:fuzzy_finder
-    let output = system(cmd)
+    let output = system(g:fuzzy_finder, g:project_roots)
   catch /Vim:Interrupt/
 
   endtry
