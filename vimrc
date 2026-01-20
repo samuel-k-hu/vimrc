@@ -64,18 +64,17 @@ endif
 " --- File opening
 " Use external fzy/fzf to select files
 
-function! SmartFuzzyCommand(choice_command, vim_command)
-  if executable('fzy')
-    let tool = 'fzy'
-  elseif executable('fzf')
-    let tool = 'fzf'
-  else
-    echoerr "Neither fzy nor fzf found in PATH."
-    return
-  endif
+if executable('fzy')
+  let g:fuzzy_finder  = 'fzy'
+elseif executable('fzf')
+  let g:fuzzy_finder = 'fzf'
+else
+  echoerr "fzf or fzy is required for fuzzy searching."
+endif
 
+function! SmartFuzzyCommand(choice_command, vim_command)
   try
-    let output = system(a:choice_command . ' | ' . tool)
+    let output = system(a:choice_command . ' | ' . g:fuzzy_finder )
   catch /Vim:Interrupt/
     return
   endtry
@@ -103,19 +102,9 @@ function! SmartFuzzyOldfiles(vim_command)
     return
   endif
 
-  if executable('fzy')
-    let tool = 'fzy'
-  elseif executable('fzf')
-    let tool = 'fzf'
-  else
-    echoerr "Neither fzy nor fzf found in PATH."
-    return
-  endif
-  redraw!
-
   try
     let input = join(oldfiles_filtered, "\n")
-    let output = system(tool, input)
+    let output = system(g:fuzzy_finder, input)
   catch /Vim:Interrupt/
 
   endtry
@@ -131,18 +120,8 @@ nnoremap <leader>r :call SmartFuzzyOldfiles(':tabnew')<CR>
 function! SmartFuzzyProject(find_file)
   let find_starting_point = !empty($SKH) ? $SKH : $HOME
 
-  if executable('fzy')
-    let tool = 'fzy'
-  elseif executable('fzf')
-    let tool = 'fzf'
-  else
-    echoerr "Neither fzy nor fzf found in PATH."
-    return
-  endif
-  redraw!
-
   try
-    let cmd = 'find ' . shellescape(find_starting_point) . ' -type d -name ".git" | xargs -n1 dirname | ' . tool
+    let cmd = 'find ' . shellescape(find_starting_point) . ' -type d -name ".git" | xargs -n1 dirname | ' . g:fuzzy_finder
     let output = system(cmd)
   catch /Vim:Interrupt/
 
