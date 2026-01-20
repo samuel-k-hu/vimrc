@@ -19,6 +19,10 @@ set showcmd
 set incsearch
 set notimeout
 
+set encoding=utf-8
+set fileencoding=utf-8
+set fileformats=unix
+
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 vnoremap <expr> j v:count ? 'j' : 'gj'
