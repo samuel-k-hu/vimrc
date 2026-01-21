@@ -58,7 +58,9 @@ vnoremap <leader>dw :s/\s\+$//e<CR>
 set autoread
 if exists('*timer_start')
   function! s:AutoCheckTime(timer)
-      checktime
+      if getcmdwintype() == ''
+         checktime
+      endif
   endfunction
 
   let g:autoread_timer = timer_start(500, function('s:AutoCheckTime'), {'repeat': -1})
