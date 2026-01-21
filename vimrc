@@ -77,8 +77,6 @@ else
   echoerr "fzf or fzy is required for fuzzy searching."
 endif
 
-let g:find_starting_point = !empty($SKH) ? $SKH : $HOME
-let g:project_roots = system('list_git_repos ' . g:find_starting_point)
 
 function! FuzzyFindFile()
   try
@@ -122,7 +120,9 @@ nnoremap <leader>r :call FuzzyFindOldfile()<CR>
 function! FuzzyChangeDir()
 
   try
-    let output = system(g:fuzzy_finder, g:project_roots)
+    let find_starting_point = !empty($SKH) ? $SKH : $HOME
+    let project_roots = system('list_git_repos ' . find_starting_point)
+    let output = system(g:fuzzy_finder, project_roots)
   catch /Vim:Interrupt/
 
   endtry
