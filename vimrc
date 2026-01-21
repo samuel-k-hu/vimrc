@@ -118,7 +118,7 @@ endfunction
 
 nnoremap <leader>r :call FuzzyFindOldfile()<CR>
 
-function! FuzzyChangeDir()
+function! FuzzyChangeCurrentDirToGitRepo()
 
   try
     let find_starting_point = !empty($SKH) ? $SKH : $HOME
@@ -135,5 +135,5 @@ function! FuzzyChangeDir()
   endif
 endfunction
 
-nnoremap <leader>p :call FuzzyChangeDir()<CR>
+nnoremap <leader>g :call FuzzyChangeCurrentDirToGitRepo()<CR>
 
