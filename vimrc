@@ -18,6 +18,7 @@ set ruler
 set showcmd
 set incsearch
 set notimeout
+set belloff=all
 
 set encoding=utf-8
 set fileencoding=utf-8
