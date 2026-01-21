@@ -80,7 +80,7 @@ else
 endif
 
 
-function! FuzzyFindFile()
+function! FuzzyFindFileInCurrentDir()
   try
     let find_cmd = "find . -name .git -prune -o -type f"
     let file = system(find_cmd . ' | ' . g:fuzzy_finder )
@@ -93,7 +93,7 @@ function! FuzzyFindFile()
   endif
 endfunction
 
-nnoremap <leader>f :call FuzzyFindFile()<CR>
+nnoremap <leader>f :call FuzzyFindFileInCurrentDir()<CR>
 
 function! FuzzyFindOldfile()
   let oldfiles_filtered = filter(copy(v:oldfiles), 'filereadable(expand(v:val))')
@@ -131,7 +131,7 @@ function! FuzzyChangeDir()
   redraw!
   if v:shell_error == 0 && !empty(output)
     exec 'cd ' . fnameescape(trim(output))
-    call FuzzyFindFile()
+    call FuzzyFindFileInCurrentDir()
   endif
 endfunction
 
