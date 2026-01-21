@@ -51,8 +51,8 @@ syntax off
 let mapleader = " "
 
 " Trimming trailing whitespace
-nnoremap <leader>tw :%s/\s\+$//e<CR>
-vnoremap <leader>tw :s/\s\+$//e<CR>
+nnoremap <leader>dw :%s/\s\+$//e<CR>
+vnoremap <leader>dw :s/\s\+$//e<CR>
 
 " Autoread
 set autoread
