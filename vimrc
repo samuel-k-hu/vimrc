@@ -51,8 +51,8 @@ syntax off
 let mapleader = " "
 
 " Trimming trailing whitespace
-nnoremap <leader>dw :%s/\s\+$//e<CR>
-vnoremap <leader>dw :s/\s\+$//e<CR>
+nnoremap <leader>cw :%s/\s\+$//e<CR>
+vnoremap <leader>cw :s/\s\+$//e<CR>
 
 " Autoread
 set autoread
@@ -136,4 +136,23 @@ function! FuzzyChangeCurrentDirToGitRepo()
 endfunction
 
 nnoremap <leader>g :call FuzzyChangeCurrentDirToGitRepo()<CR>
+
+function! FuzzyChangeCurrentDir()
+
+  try
+    let find_starting_point = !empty($SKH) ? $SKH : $HOME
+    let project_roots = system('fd -t d . ' . find_starting_point)
+    let output = system(g:fuzzy_finder, project_roots)
+  catch /Vim:Interrupt/
+
+  endtry
+
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec 'cd ' . fnameescape(trim(output))
+    call FuzzyFindFileInCurrentDir()
+  endif
+endfunction
+
+nnoremap <leader>d :call FuzzyChangeCurrentDir()<CR>
 
