@@ -111,7 +111,6 @@ function! FuzzyFindOldfile()
   redraw!
   if v:shell_error == 0 && !empty(output)
     exec 'e ' . fnameescape(trim(output))
-    exec 'cd %:h'
   endif
 endfunction
 
