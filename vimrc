@@ -156,3 +156,59 @@ endfunction
 
 nnoremap <leader>d :call FuzzyChangeCurrentDir()<CR>
 
+function! DeleteBufferAndFile()
+    let l:filename = expand('%:p')
+    try
+        call delete(l:filename)
+    catch
+        echoerr "Failed to delete file: " . l:filename
+        return
+    endtry
+
+    execute 'bdelete!'
+    echo "Deleted file and closed buffer: " . l:filename
+endfunction
+
+nnoremap <leader>D :call DeleteBufferAndFile()<CR>
+
+function! RenameCurrentFileAndBuffer() abort
+    let l:oldname = expand('%:p')
+    if empty(l:oldname)
+        echoerr "Current buffer has no associated file"
+        return
+    endif
+
+    let l:newname = input('Enter new filename: ', l:oldname, 'file')
+    if empty(l:newname)
+        echo "Rename cancelled"
+        return
+    endif
+
+    if filereadable(l:newname)
+        echoerr "File already exists: " . l:newname
+        return
+    endif
+
+    let l:parentdir = fnamemodify(l:newname, ':h')
+    if !isdirectory(l:parentdir)
+        if mkdir(l:parentdir, 'p')
+            echo "Created parent directory: " . l:parentdir
+        else
+            echoerr "Failed to create parent directory: " . l:parentdir
+            return
+        endif
+    endif
+
+    try
+        call rename(l:oldname, l:newname)
+    catch
+        echoerr "Failed to rename file: " . l:oldname
+        return
+    endtry
+
+    execute 'bdelete!'
+    execute 'edit' fnameescape(l:newname)
+    echo "Renamed file and buffer: " . l:oldname . " -> " . l:newname
+endfunction
+
+nnoremap <leader>R :call RenameCurrentFileAndBuffer()<CR>
