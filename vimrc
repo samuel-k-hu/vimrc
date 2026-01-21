@@ -239,3 +239,44 @@ xnoremap <leader>st :<C-U>call SendCodeToTmux()<CR>
 
 nnoremap <leader>sv :source %<CR>
 nnoremap <leader>sp :!perl %<CR>
+
+" --- Lookup doc
+
+function! ShowCommandOutput(cmd) abort
+  let name = '[ TERMINAL OUTPUT ]'
+  let bufnr = bufnr(name)
+
+  if bufnr == -1
+    enew
+    execute 'file ' . name
+    setlocal buftype=nofile bufhidden=hide noswapfile
+  else
+    execute 'buffer ' . bufnr
+    setlocal modifiable
+    %delete _
+  endif
+
+  let output = systemlist(a:cmd)
+  call map(output, { _, v -> substitute(v, '\r$', '', '') })
+
+  if v:shell_error
+    call append(0, 'Command failed:')
+    call append(1, a:cmd)
+  endif
+
+  setlocal modifiable
+  call append(0, output)
+  setlocal nomodifiable
+  setlocal nomodified
+  normal! gg
+endfunction
+
+function! PromptAndShowCommandOutput() abort
+  let cmd = input('Run command: ')
+  if empty(cmd)
+    return
+  endif
+  call ShowCommandOutput(cmd)
+endfunction
+
+noremap <silent> <leader>t :call PromptAndShowCommandOutput()<CR>
