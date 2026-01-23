@@ -51,8 +51,18 @@ syntax off
 let mapleader = " "
 
 " Trimming trailing whitespace
-nnoremap <leader>cw :%s/\s\+$//e<CR>
-vnoremap <leader>cw :s/\s\+$//e<CR>
+augroup before_write_cleanup
+  autocmd!
+  autocmd BufWritePre * if &modifiable && &buftype == '' |
+        \ silent keepjumps %s/\s\+$//e |
+        \ endif
+augroup END
+
+" Autowrite
+augroup autosave_on_insert_leave
+  autocmd!
+  autocmd InsertLeave * if &modifiable && &buftype == '' | silent write | endif
+augroup END
 
 " Autoread
 set autoread
