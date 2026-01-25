@@ -222,3 +222,13 @@ function! RenameCurrentFileAndBuffer() abort
 endfunction
 
 nnoremap <leader>R :call RenameCurrentFileAndBuffer()<CR>
+
+function! OpenTempFile()
+  let l:tmp = tempname()
+  execute 'edit' fnameescape(l:tmp)
+  setlocal buftype=
+  setlocal bufhidden=wipe
+  setlocal noswapfile
+endfunction
+
+nnoremap <leader>t :call OpenTempFile()<CR>
